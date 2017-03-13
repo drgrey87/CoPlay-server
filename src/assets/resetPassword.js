@@ -96,7 +96,6 @@ internals.successMessage = function (request) {
 
   // Success clear and display authenticated users links.
 
-
   var form = document.getElementsByTagName('form')[0];
   var parent1 = form.parentNode;
 
