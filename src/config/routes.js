@@ -18,14 +18,18 @@ var AccountRoutes = require('../routes/account/endpoints'),
     //General like env & status
     GeneralRoutes = require('../routes/general/endpoints'),
     //Restricted route to prove authentication & authorization
-    RestrictedRoutes = require('../routes/restricted/endpoints');
+    RestrictedRoutes = require('../routes/restricted/endpoints'),
+    //Activities route get activities
+    ActivitiesRoutes = require('../routes/activities/endpoints');
 
 var internals = {};
 
 //Concatentate the routes into one array
-internals.routes = [].concat(AccountRoutes.endpoints,
-                             GeneralRoutes.endpoints,
-                             RestrictedRoutes.endpoints);
+internals.routes = [].concat(
+  AccountRoutes.endpoints,
+  GeneralRoutes.endpoints,
+  RestrictedRoutes.endpoints,
+  ActivitiesRoutes.endpoints);
 
 //set the routes for the server
 internals.init = function (server) {
