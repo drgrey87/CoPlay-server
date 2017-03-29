@@ -41,14 +41,22 @@ var internals = {};
  * note: the user is available from the credentials!
  */
 internals.getMyActivities = function (req, reply) {
-  console.log('------', req.user);
 
-  Activity.findBy(req.params._id, function(err, activities) {
-    console.log('************', req.user);
+  Activity.findBy({_id: req.auth.credentials._id}, function(err, activities) {
+    let modified_activities = {};
     if (err) {
       return reply(Boom.badImplementation(err));
     }
     //Provide no indication if user exists
+    if (activities.length) {
+      activities.forEach((item, i) => {
+        modified_activities[item.type] = {};
+        modified_activities[item.type].isActive = item.is_active;
+        modified_activities[item.type].rate = item.rate;
+      });
+    } else {
+      activities = modified_activities;
+    }
 
     reply(activities);
   });

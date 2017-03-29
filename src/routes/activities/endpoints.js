@@ -36,9 +36,15 @@ internals.endpoints = [
     handler: ActivitiesHandlers.getMyActivities,
     config: {
       // Include this API in swagger documentation
+      auth: 'token',
       tags: ['api'],
       description: 'User\'s Activities',
-      notes: 'User clicks link in email sent during registration'
+      notes: 'User clicks link in email sent during registration',
+      validate: {
+        headers: Joi.object({
+          'Authorization': Joi.string()
+        }).unknown()
+      }
     }
   }
 ];
