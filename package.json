@@ -24,7 +24,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cp ./README.md src/docs && node server.js",
     "debug": "node-debug  server.js",
-    "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages "
+    "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages ",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "boom": "^3.1.1",
@@ -48,7 +49,8 @@
     "vision": "^4.0.1"
   },
   "devDependencies": {
-    "docker": "^0.2.14"
+    "docker": "^0.2.14",
+    "nodemon": "^1.11.0"
   },
   "bundleDependencies": [],
   "private": true,
