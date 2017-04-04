@@ -26,5 +26,73 @@ module.exports = {
   hapi: {
     port: 5000,
     ip: '192.168.1.66'
-  }
+  },
+  activities: [
+    {
+      type: 'basketball',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'football',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'tennis',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'badminton',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'ice_hockey',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'table_tennis',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'valleyball',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'american_football',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'handball',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'frisbee',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    },
+    {
+      type: 'other',
+      is_active: false,
+      rate: 5,
+      user_id: null
+    }
+  ]
 };

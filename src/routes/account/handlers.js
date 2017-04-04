@@ -28,8 +28,12 @@ var Boom = require('boom'),
     redisClient = require('../../database/redis'),
     // helper library
     _ = require('underscore'),
+    // Activity in mongodb
+    Activity = require('../../database/models/Activity'),
     // our user in mongodb
-    User = require('../../database/models/User');
+    User = require('../../database/models/User'),
+    config = require('../../config'),
+    winston = require('winston');
 
 var internals = {};
 /**
@@ -38,26 +42,30 @@ var internals = {};
  * Encrypt the password and store the user
  */
 internals.registerUser = function (req, reply) {
-  console.log('registerUser',req.payload);
   req.payload.password = Crypto.encrypt(req.payload.password);
   req.payload.emailVerified = false;
-  var user = new User(req.payload);
+  let user = new User(req.payload),
+    saved_user;
   
   //save the user w/ the encrypted password
-  user.save(function (err, user) {
-    if (err) {
-      reply(Boom.conflict(err));
-    } else {
+  user.save()
+    .then(user => {
+      saved_user = user;
       var tokenData = {
         username: user.username,
         id: user._id
       };
+      //throw Error('sssssssssssss');
       // send an email verification with a JWT token
       Mailer.sendMailVerificationLink(user,
-                                      JasonWebToken.sign(tokenData,
-                                                         CONFIG.crypto.privateKey));
+        JasonWebToken.sign(tokenData,
+          CONFIG.crypto.privateKey));
 
-      /** user: 
+      return Activity.collection.insert(config.activities);
+    })
+    .then(data => {
+      winston.log('data', data);
+      /** user:
        register { _id: 56844c798d4dce65e2b45b6e,
        emailVerified: false,
        password: 'd5be02df44dafbbcfb',
@@ -71,12 +79,12 @@ internals.registerUser = function (req, reply) {
       //If the token embeds either of those fields, it becomes
       //an invalid token once the user changes those fields
       reply({
-	statusCode: 201,
-        objectId: user._id,
-	sessionToken: JwtAuth.createToken({ id: user._id})
+        statusCode: 201,
+        objectId: saved_user._id,
+        sessionToken: JwtAuth.createToken({id: saved_user._id})
       });
-    }
-  });
+    })
+    .catch(err => reply(Boom.conflict(err)));
 };
 /**
  * ## loginUser
