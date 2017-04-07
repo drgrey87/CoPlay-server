@@ -17,7 +17,7 @@ var Mongoose = require('mongoose'),
 //Same fields as Parse.com
 var ActivitySchema = new Schema({
   user_id: {
-    type: Number,
+    type: Schema.Types.ObjectId,
     required: true
   },
   type: {
@@ -43,8 +43,8 @@ var ActivitySchema = new Schema({
  * @param callback - resolve the action
  *
  */
-ActivitySchema.statics.findBy = function(data, callback) {
-  this.find(data, callback);
+ActivitySchema.statics.findBy = function(data) {
+  return this.find(data).exec();
 };
 
 /**

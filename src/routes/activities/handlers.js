@@ -29,7 +29,10 @@ var Boom = require('boom'),
   // helper library
   _ = require('underscore'),
   // our user in mongodb
-  Activity = require('../../database/models/Activity');
+  Activity = require('../../database/models/Activity'),
+  //mongoose
+  mongoose = require('mongoose'),
+  ObjectId = mongoose.Types.ObjectId;
 
 var internals = {};
 
@@ -41,14 +44,12 @@ var internals = {};
  * note: the user is available from the credentials!
  */
 internals.getMyActivities = function (req, reply) {
-
-  Activity.findBy({_id: req.auth.credentials._id}, function(err, activities) {
-    if (err) {
-      return reply(Boom.badImplementation(err));
-    }
-
-    reply(activities);
-  });
+  console.log('req.auth.credentials._id', req.auth.credentials._id);
+  Activity.findBy({user_id: new ObjectId(req.auth.credentials._id)})
+    .then(activities => {
+      reply(activities)
+    })
+    .catch(err => reply(Boom.badImplementation(err)));
 };
 
 module.exports = internals;

@@ -44,27 +44,31 @@ var internals = {};
 internals.registerUser = function (req, reply) {
   req.payload.password = Crypto.encrypt(req.payload.password);
   req.payload.emailVerified = false;
-  let user = new User(req.payload),
-    saved_user;
+  let user = new User(req.payload);
   
   //save the user w/ the encrypted password
   user.save()
     .then(user => {
-      saved_user = user;
-      var tokenData = {
-        username: user.username,
-        id: user._id
-      };
-      //throw Error('sssssssssssss');
+      let activities,
+        tokenData = {
+          username: user.username,
+          id: user._id
+        };
+
       // send an email verification with a JWT token
       Mailer.sendMailVerificationLink(user,
         JasonWebToken.sign(tokenData,
           CONFIG.crypto.privateKey));
 
-      return Activity.collection.insert(config.activities);
+      activities = config.activities.map(item => {
+        item.user_id = user._id;
+        return item;
+      });
+      Activity.collection.insert(activities);
+
+      return user;
     })
-    .then(data => {
-      winston.log('data', data);
+    .then(user => {
       /** user:
        register { _id: 56844c798d4dce65e2b45b6e,
        emailVerified: false,
@@ -80,8 +84,8 @@ internals.registerUser = function (req, reply) {
       //an invalid token once the user changes those fields
       reply({
         statusCode: 201,
-        objectId: saved_user._id,
-        sessionToken: JwtAuth.createToken({id: saved_user._id})
+        objectId: user._id,
+        sessionToken: JwtAuth.createToken({id: user._id})
       });
     })
     .catch(err => reply(Boom.conflict(err)));
