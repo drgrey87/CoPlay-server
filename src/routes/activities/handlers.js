@@ -37,18 +37,33 @@ var Boom = require('boom'),
 var internals = {};
 
 /**
- * ## getMyProfile
+ * ## getMyActivities
  *
  * We only get here through authentication
  *
  * note: the user is available from the credentials!
  */
 internals.getMyActivities = function (req, reply) {
-  console.log('req.auth.credentials._id', req.auth.credentials._id);
   Activity.findBy({user_id: new ObjectId(req.auth.credentials._id)})
     .then(activities => {
       reply(activities)
     })
+    .catch(err => reply(Boom.badImplementation(err)));
+};
+
+/**
+ * ## setMyActivities
+ *
+ * We only get here through authentication
+ *
+ * note: the user is available from the credentials!
+ */
+internals.setActivities = function (req, reply) {
+  let array_promises = req.payload.map(item => {
+    return Activity.findByIdAndUpdate(item._id, {$set: item}, {new: true});
+  });
+  Promise.all(array_promises)
+    .then(result => reply(result))
     .catch(err => reply(Boom.badImplementation(err)));
 };
 
