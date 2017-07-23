@@ -1,0 +1,12 @@
+version: '3.2'
+services:
+  app:
+    image: grey87/coplay-server
+    volumes: ['./', '/app']
+    ports: [5000]
+    command: npm i && npm start
+  mongo:
+    image: mongo:3.0.15
+    volumes: ['/data/db', '/data/db']
+  redis:
+    image: redis:3.2.9
