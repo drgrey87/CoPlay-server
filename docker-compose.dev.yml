@@ -1,11 +1,26 @@
 version: '3.2'
 services:
-  app:
+  server:
     image: grey87/coplay-server
-    volumes: ['./', '/usr/src/app']
-    ports: [5000]
+#    build: .
+    volumes:
+      - /Users/sergey/projects/CoPlay-server:/usr/src/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+      - mongo
+    networks:
+      - backend
   mongo:
-    image: mongo:3.0.15
-    volumes: ['/data/db', '/data/db']
+    image: mongo:3.4.6
+#    volumes:
+#      - /data/db:/data/db
+    networks:
+      - backend
   redis:
-    image: redis:3.2.9
+    image: redis:4.0.1-alpine
+    networks:
+      - backend
+networks:
+  backend:
