@@ -14,8 +14,8 @@ services:
       - backend
   mongo:
     image: mongo:3.4.6
-#    volumes:
-#      - /data/db:/data/db
+    volumes:
+      - /data/db:/data/db
     networks:
       - backend
   redis:
