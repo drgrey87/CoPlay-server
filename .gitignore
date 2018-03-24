@@ -6,3 +6,4 @@ config.js
 .idea/*
 /atlassian-ide-plugin.xml
 /nodemon.json
+/package-lock.json
