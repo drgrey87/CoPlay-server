@@ -22,10 +22,10 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
-    "start": "cp ./README.md src/docs && node server.js",
+    "dev-up": "docker-compose --file docker-compose.dev.yml up",
+    "dev-down": "docker-compose --file docker-compose.dev.yml down",
     "debug": "node-debug  server.js",
-    "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages ",
-    "dev": "nodemon server.js"
+    "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages "
   },
   "dependencies": {
     "boom": "^3.1.1",

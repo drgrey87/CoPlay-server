@@ -49,23 +49,10 @@ internals.registerUser = function (req, reply) {
   //save the user w/ the encrypted password
   user.save()
     .then(user => {
-      let activities,
-        tokenData = {
-          username: user.username,
-          id: user._id
-        };
-
       // send an email verification with a JWT token
       Mailer.sendMailVerificationLink(user,
         JasonWebToken.sign(tokenData,
           CONFIG.crypto.privateKey));
-
-      activities = config.activities.map(item => {
-        item.user_id = user._id;
-        return item;
-      });
-      Activity.collection.insert(activities);
-
       return user;
     })
     .then(user => {
