@@ -13,7 +13,7 @@
  *
  */
 // our configurations
-var Config = require('../config'),
+const Config = require('../config'),
     //the crypto library
     crypto = require('crypto'),
     //algorithm for encryption
@@ -41,8 +41,8 @@ exports.encrypt = function(password) {
  *
  */
 function decrypt(password) {
-  var decipher = crypto.createDecipher(algorithm, privateKey);
-  var dec = decipher.update(password, 'hex', 'utf8');
+  let decipher = crypto.createDecipher(algorithm, privateKey);
+  let dec = decipher.update(password, 'hex', 'utf8');
   dec += decipher.final('utf8');
   return dec;
 }
@@ -51,8 +51,8 @@ function decrypt(password) {
  *
  */
 function encrypt(password) {
-  var cipher = crypto.createCipher(algorithm, privateKey);
-  var crypted = cipher.update(password, 'utf8', 'hex');
+  let cipher = crypto.createCipher(algorithm, privateKey);
+  let crypted = cipher.update(password, 'utf8', 'hex');
   crypted += cipher.final('hex');
   return crypted;
 }
