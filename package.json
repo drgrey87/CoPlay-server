@@ -23,6 +23,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
     "dev-up": "docker-compose --file docker-compose.dev.yml up",
+    "start-dev": "cp ./README.md src/docs && nodemon -L server.js",
     "dev-down": "docker-compose --file docker-compose.dev.yml down",
     "debug": "node-debug  server.js",
     "docs": "./node_modules/docker/docker -w -I -x node_modules -s yes -o ../snowflake-hapi-openshift-pages "

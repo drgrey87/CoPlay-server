@@ -1,8 +1,8 @@
 version: '3.2'
 services:
   server:
-    image: grey87/coplay-server
-#    build: .
+#    image: grey87/coplay-server
+    build: .
     volumes:
       - .:/usr/src/app
     ports:

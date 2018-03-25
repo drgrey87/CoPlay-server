@@ -44,15 +44,14 @@ var internals = {};
 internals.registerUser = function (req, reply) {
   req.payload.password = Crypto.encrypt(req.payload.password);
   req.payload.emailVerified = false;
-  let user = new User(req.payload);
   
   //save the user w/ the encrypted password
-  user.save()
+  User.create(req.payload)
     .then(user => {
       // send an email verification with a JWT token
-      Mailer.sendMailVerificationLink(user,
-        JasonWebToken.sign(tokenData,
-          CONFIG.crypto.privateKey));
+      // Mailer.sendMailVerificationLink(user,
+      //   JasonWebToken.sign(tokenData,
+      //     CONFIG.crypto.privateKey));
       return user;
     })
     .then(user => {
