@@ -40,14 +40,14 @@ internals.endpoints = [
       description: 'Register user',
       notes: 'The user registration generates an email for verification',
       validate: {
-	payload: {
-          //username required with same regex as client
-	  username: Joi.string().regex(CONFIG.validation.username).required(),
-          //password required with same regex as client          
-	  password: Joi.string().regex(CONFIG.validation.password).required(),
-          //email required
-	  email: Joi.string().email().required()
-	}
+        payload: {
+              //username required with same regex as client
+          username: Joi.string().regex(CONFIG.validation.username).required(),
+              //password required with same regex as client
+          password: Joi.string().regex(CONFIG.validation.password).required(),
+              //email required
+          email: Joi.string().email().required()
+        }
       }
     }
   },

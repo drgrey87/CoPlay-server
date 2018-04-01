@@ -49,9 +49,14 @@ internals.registerUser = function (req, reply) {
   User.create(req.payload)
     .then(user => {
       // send an email verification with a JWT token
-      // Mailer.sendMailVerificationLink(user,
-      //   JasonWebToken.sign(tokenData,
-      //     CONFIG.crypto.privateKey));
+      const tokenData = {
+          username: user.username,
+          id: user._id
+      };
+      Mailer.sendMailVerificationLink(
+        user,
+        JasonWebToken.sign(tokenData, CONFIG.crypto.privateKey)
+      );
       return user;
     })
     .then(user => {
