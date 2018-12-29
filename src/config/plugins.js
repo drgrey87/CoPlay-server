@@ -6,9 +6,6 @@
  */
 'use strict';
 
-
-var internals = {};
-
 /**
 * ## plugins
 *
@@ -16,24 +13,20 @@ var internals = {};
 *
 * the good module prints out messages
 */
-internals.plugins = function () {
-  return [
-    {
-      register: require('hapi-auth-jwt'),
-      options: {}
-    },
-    {
+module.exports = [
+  {
+    register: require('hapi-auth-jwt'),
+    options: {}
+  },
+  {
 
-      register: require('good'),
-      options: {
-        opsInterval: 1000,
-        reporters: [{
-          reporter: require('good-console'),
-          events: { log: '*', response: '*', request: '*' }
-        }]
-      }
+    register: require('good'),
+    options: {
+      opsInterval: 1000,
+      reporters: [{
+        reporter: require('good-console'),
+        events: { log: '*', response: '*', request: '*' }
+      }]
     }
-  ];
-};
-
-module.exports.get = internals.plugins;
+  }
+];
