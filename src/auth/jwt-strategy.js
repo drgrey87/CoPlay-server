@@ -1,18 +1,9 @@
-/**
- * # ErrorAlert.js
- *
- * This class uses a component which displays the appropriate alert
- * depending on the platform
- *
- * The main purpose here is to determine if there is an error and then
- * plucking off the message depending on the shape of the error object.
- */
 'use strict';
 /**
 * ## Imports
 *
 */
-var  Config = require('../config'),
+const  Config = require('../config'),
     internals = {},
     //the authentication package
     Jwt = require('jsonwebtoken'),
@@ -30,7 +21,7 @@ internals.privateKey = Config.crypto.privateKey;
  *
  *  When a route is configured w/ 'auth', this validate function is
  * invoked
- * 
+ *
  * If the token wasn't invalidated w/ logout, then validate
  * its for a user
  *
@@ -39,31 +30,29 @@ internals.privateKey = Config.crypto.privateKey;
  *
  */
 internals.validate = function (request, decodedToken, callback) {
-  
-  var credentials = {};
+  let credentials = {};
 
-  //credentials have 'Bearer dfadfsdf'
-  var headers = request.headers.authorization.split(' ');
+  let headers = request.headers.authorization.split(' ');
 
   if (headers.length === 2) {
     //does redis have the token
     redisClient.get(headers[1], function (err, reply) {
 
       if (err) {
-        return callback(err, false, credentials);		        
+        return callback(err, false, credentials);
       }
-      
+
       //oops - it's been blacklisted - sorry
       if (reply) {
-        return callback({message: 'invalid auth token'}, false, credentials);		        
+        return callback({message: 'invalid auth token'}, false, credentials);
       }
       // ok - valid token, do we have a user?
       // note we're only using 'id' - that's because
       // the user can change their email and username
       User.findById(decodedToken.id, function (err, user) {
-        
+
         if (err) {
-          return callback(err, false, credentials);		
+          return callback(err, false, credentials);
         } else {
           credentials = user;
 
@@ -72,9 +61,6 @@ internals.validate = function (request, decodedToken, callback) {
       });
     });
   }
-
-  
-
 };
 
 // create token

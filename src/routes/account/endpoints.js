@@ -1,25 +1,16 @@
-/**
- * # ErrorAlert.js
- *
- * This class uses a component which displays the appropriate alert
- * depending on the platform
- *
- * The main purpose here is to determine if there is an error and then
- * plucking off the message depending on the shape of the error object.
- */
 'use strict';
 /**
  * ## Imports
  *
  */
 //Handle the endpoints
-var AccountHandlers = require('./handlers'),
+const AccountHandlers = require('./handlers'),
     //The static configurations
     CONFIG = require('../../config'),
     //Joi is Hapi's validation library
     Joi = require('joi');
 
-var internals = {};
+let internals = {};
 /**
  * ## Set the method, path, and handler
  *
@@ -61,12 +52,12 @@ internals.endpoints = [
       description: 'A user can login',
       notes: 'The user login will return a sessionToken',
       validate: {
-	payload: {
-          //username required with same regex as client          
-	  username: Joi.string().regex(CONFIG.validation.username).required(),
-          //password required with same regex as client
-	  password: Joi.string().regex(CONFIG.validation.password).required()
-	}
+        payload: {
+              //username required with same regex as client
+          username: Joi.string().regex(CONFIG.validation.username).required(),
+              //password required with same regex as client
+          password: Joi.string().regex(CONFIG.validation.password).required()
+        }
       }
     }
   },
@@ -84,7 +75,7 @@ internals.endpoints = [
       validate: {
         headers: Joi.object({
           'Authorization': Joi.string()
-        }).unknown()      
+        }).unknown()
       }
     }
   },
@@ -114,16 +105,15 @@ internals.endpoints = [
       description: 'User requests to reset password',
       notes: 'Email is sent to email address provided',
       validate: {
-	payload: {
+        payload: {
           //email required
-	  email: Joi.string().email().required()          
-	}
-      }      
-
+          email: Joi.string().email().required()
+        }
+      }
     }
   },
   {
-    //send html w/ password reset form    
+    //send html w/ password reset form
     method: 'GET',
     path: '/account/resetPassword/{token}',
     handler: AccountHandlers.displayResetPassword
@@ -138,15 +128,14 @@ internals.endpoints = [
       description: 'User posts new password',
       notes: 'Password form posts new password',
       validate: {
-	payload: {
-          //password required with same regex as client          
-	  password: Joi.string().regex(CONFIG.validation.password).required(),
-          //email required
-	  token: Joi.string().required()          
-	}
-      }      
-
-    }    
+        payload: {
+              //password required with same regex as client
+          password: Joi.string().regex(CONFIG.validation.password).required(),
+              //email required
+          token: Joi.string().required()
+        }
+      }
+    }
   },
   {
     method: 'GET',
@@ -156,12 +145,12 @@ internals.endpoints = [
       auth: 'token',
       tags: ['api'],
       description: 'Get the current users profile',
-      notes: 'The user has username, email and emailVerified',      
+      notes: 'The user has username, email and emailVerified',
       validate: {
         headers: Joi.object({
           'Authorization': Joi.string()
-        }).unknown()      
-      }      
+        }).unknown()
+      }
     }
   },
   {
@@ -175,22 +164,21 @@ internals.endpoints = [
       notes: 'User is able to change their username and email',
       validate: {
         payload: {
-          //email required          
-	  email: Joi.string().email().required(),
-          //username required          
-	  username: Joi.string().regex(CONFIG.validation.username).required()
-	},
+          //email required
+          email: Joi.string().email().required(),
+              //username required
+          username: Joi.string().regex(CONFIG.validation.username).required()
+	    },
         params: {
           _id: Joi.string().required()
-        },        
+        },
         headers: Joi.object({
           'Authorization': Joi.string()
-        }).unknown()      
-      }      
+        }).unknown()
+      }
     }
   },
 
 ];
-
 
 module.exports = internals;

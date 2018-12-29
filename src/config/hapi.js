@@ -1,20 +1,6 @@
-/**
- * # Hapi.js
- *
- * This is a configuration for Hapi
- * 
- * Note that Hapi is configuration over coding 
- * 
- * There's no coding here!!
- */
 'use strict';
 
-/**
-* ## Imports
-*
-*/
-var
-    Config = require('../config'),
+const Config = require('../config'),
     //Hapi itself
     Hapi = require('hapi'),
     // the authentication strategy
@@ -28,15 +14,15 @@ var
     // the view, mainly for reset password
     Views = require('./views');
 
-var internals = {};
+let internals = {};
 
-//The real Hapi server! 
+//The real Hapi server!
 internals.server = new Hapi.Server();
 
 //Setup the connection for the environment
 internals.server.connection({
-  port: process.env.OPENSHIFT_NODEJS_PORT || Config.hapi.port,
-  address: process.env.OPENSHIFT_NODEJS_IP || Config.hapi.ip
+  port: Config.hapi.port,
+  address: Config.hapi.ip
 });
 
 // register plugins

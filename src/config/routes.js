@@ -14,7 +14,7 @@
  *
  */
 // Accounts
-var AccountRoutes = require('../routes/account/endpoints'),
+const AccountRoutes = require('../routes/account/endpoints'),
     //General like env & status
     GeneralRoutes = require('../routes/general/endpoints'),
     //Restricted route to prove authentication & authorization
@@ -22,7 +22,7 @@ var AccountRoutes = require('../routes/account/endpoints'),
     //Activities route get activities
     ActivitiesRoutes = require('../routes/activities/endpoints');
 
-var internals = {};
+let internals = {};
 
 //Concatentate the routes into one array
 internals.routes = [].concat(
